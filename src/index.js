@@ -1,21 +1,26 @@
 module.exports = function check(str, bracketsConfig) {
 
-  const brackets1 = ['(', '{', '|', '['];
-  const closingPare = { [')']: '(', ['}']: '{', ['|']: '|', [']']: '[', };
+  const bracketsOpen = ['(', '{', '|', '['];
+  const closingPare = {[')']: '(', ['}']: '{', ['|']: '|', [']']: '['};
 
   let stack = [];
 
   for (let i = 0; i < str.length; i++) {
     let bracketsConfig = str[i];
-    if (brackets1.includes(bracketsConfig)) {
-      stack.push(bracketsConfig);
-    } else {
+    let topBracketsConfig = stack[stack.length - 1];
+
+    if (bracketsOpen.includes(bracketsConfig)) {
+      if (bracketsConfig === topBracketsConfig && (bracketsConfig === '|' ||bracketsConfig === '7' ||bracketsConfig === '8' ||bracketsConfig === '2' ||bracketsConfig === '5' ||bracketsConfig === '6')) {
+        stack.pop();
+      } else {
+        stack.push(bracketsConfig);
+        }
+      } else {
       if (stack.length === 0) {
         return false;
       }
       
-      let topBracketConfig = stack[stack.length - 1];
-      if (closingPare[bracketsConfig] === topBracketConfig) {
+      if (closingPare[bracketsConfig] === topBracketsConfig) {
         stack.pop();
       } else {
         return false;
